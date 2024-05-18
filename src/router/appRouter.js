@@ -3,6 +3,7 @@ import App from "../App";
 import Home from "../screens/Home";
 import Login from "../screens/Login";
 import ForgetPassword from "../screens/ForgetPassword";
+import SignUp from "../screens/SignUp";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
             {
                 path:"forgot-password",
                 element:<ForgetPassword/>
+            },
+            {
+                path:"Sign-Up",
+                element:<SignUp/>
             }
         ],
     }
