@@ -5,9 +5,13 @@ const SummaryApi = {
         url: `${domain}/api/signup`,
         method: 'POST'
     },
-    signIn:{
-        url:`${domain}/api/signin`,
-        method:'POST'
+    signIn: {
+        url: `${domain}/api/signin`,
+        method: 'POST'
+    },
+    current_user: {
+        url: `${domain}/api/user-details`,
+        method: 'GET'
     }
 }
 

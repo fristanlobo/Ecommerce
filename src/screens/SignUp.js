@@ -47,7 +47,7 @@ const SignUp = () => {
       else{
         toast.error(dataApi.message)
       }
-      console.log(dataApi)
+
     }
     else {
       console.log("Confirm password does not match password")
