@@ -32,13 +32,11 @@ const Login = () => {
             const dataResponse = await fetch(SummaryApi.signIn.url, {
                 credentials: 'include',
                 method: SummaryApi.signIn.method,
-                //
                 headers: {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
-            //console.log(dataResponse)
             const dataApi = await dataResponse.json();
             if (dataApi.success) {
                 toast.success(dataApi.message);
