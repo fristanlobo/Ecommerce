@@ -51,9 +51,10 @@ const Header = () => {
 
                 <div className='flex items-center gap-7'>
                     <div className='relative flex justify-center'>
-                        <div 
-                        className='text-3xl cursor-pointer relative flex justify-center'
-                        onClick={()=>setMenuDisplay(!menuDisplay)}>
+                        <div
+                            className='text-3xl cursor-pointer relative flex justify-center'
+                            onClick={() => setMenuDisplay(prev => !prev)}
+                        >
                             {
                                 user?.profilePic ? (
                                     <img
@@ -66,10 +67,15 @@ const Header = () => {
                             }
 
                         </div>
-                        { menuDisplay &&
+                        {menuDisplay &&
                             <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
                                 <nav>
-                                    <Link to={"admin-panel"} className='whitespace-nowrap hover:bg-slate-100 p-2 rounded '>Admin Panel</Link>
+                                    <Link
+                                        to={"admin-panel"}
+                                        className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'
+                                        onClick={() => setMenuDisplay(prev => !prev)}
+                                       >Admin Panel
+                                    </Link>
                                 </nav>
                             </div>
                         }
