@@ -20,6 +20,10 @@ const SummaryApi = {
     all_user:{
         url:`${domain}/api/all-user`,
         method:'GET'
+    },
+    updateUser:{
+        url:`${domain}/api/update-user`,
+        method:'POST'
     }
 }
 

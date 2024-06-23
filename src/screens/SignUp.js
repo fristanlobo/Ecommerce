@@ -50,7 +50,7 @@ const SignUp = () => {
 
     }
     else {
-      console.log("Confirm password does not match password")
+      toast.error("Confirm password does not match password")
     }
 
   }

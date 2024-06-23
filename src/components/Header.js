@@ -3,14 +3,17 @@ import Logo from './Logo';
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 import { setUserDetails } from '../redux/slices/userSlice';
+import ROLE from '../common/role';
 const Header = () => {
     const user = useSelector(state => state.user?.user)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [menuDisplay, setMenuDisplay] = useState(false)
     const handleLoggout = async () => {
         const response = await fetch(SummaryApi.loggout_user.url, {
@@ -19,10 +22,11 @@ const Header = () => {
         })
 
         const data = await response.json();
-        console.log(data)
+
         if (data.success) {
             dispatch(setUserDetails(null))
             toast.success(data.message)
+            navigate('/')
         }
         else {
             toast.error(data.message)
@@ -51,33 +55,41 @@ const Header = () => {
 
                 <div className='flex items-center gap-7'>
                     <div className='relative flex justify-center'>
-                        <div
-                            className='text-3xl cursor-pointer relative flex justify-center'
-                            onClick={() => setMenuDisplay(prev => !prev)}
-                        >
-                            {
-                                user?.profilePic ? (
-                                    <img
-                                        src={user?.profilePic}
-                                        className='w-10 h-10 rounded-full'
-                                        alt={user?.name} />
-                                ) : (
-                                    <FaRegCircleUser />
-                                )
-                            }
 
-                        </div>
-                        {menuDisplay &&
-                            <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
-                                <nav>
-                                    <Link
-                                        to={"admin-panel"}
-                                        className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'
-                                        onClick={() => setMenuDisplay(prev => !prev)}
-                                       >Admin Panel
-                                    </Link>
-                                </nav>
-                            </div>
+                        {
+                            user?._id && (
+                                <div
+                                    className='text-3xl cursor-pointer relative flex justify-center'
+                                    onClick={() => setMenuDisplay(prev => !prev)}
+                                >
+                                    {
+                                        user?.profilePic ? (
+                                            <img
+                                                src={user?.profilePic}
+                                                className='w-10 h-10 rounded-full'
+                                                alt={user?.name} />
+                                        ) : (
+                                            <FaRegCircleUser />
+                                        )
+                                    }
+
+                                </div>
+                            )
+                        }
+                        {
+                            menuDisplay &&
+                            user.role === ROLE.ADMIN && (
+                                <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
+                                    <nav>
+                                        <Link
+                                            to={"/admin-panel/all-Product"}
+                                            className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'
+                                            onClick={() => setMenuDisplay(prev => !prev)}
+                                        >Admin Panel
+                                        </Link>
+                                    </nav>
+                                </div>
+                            )
                         }
                     </div>
 

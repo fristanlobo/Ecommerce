@@ -7,11 +7,18 @@ import ChangeUserRole from '../components/ChangeUserRole';
 
 const AllUsers = () => {
     const [alluser, setAllUser] = useState([]);
-
+    const [openUpdateRole, setopenUpdateRole] = useState(false);
+    const [userDetailData, setUserDetailData] = useState({
+        name: '',
+        email: '',
+        role: '',
+        _id:''
+    })
     const fetchUser = async () => {
         const fetchApiData = await fetch(SummaryApi.all_user.url, {
             method: SummaryApi.all_user.method,
-            credentials: 'include'
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
         })
         const dataResponse = await fetchApiData.json();
         if (dataResponse.success) {
@@ -29,7 +36,7 @@ const AllUsers = () => {
         <div className='bg-white pb-4'>
             <table className='w-full userTable'>
                 <thead>
-                    <tr>
+                    <tr className='bg-black text-white'>
                         <th>Sr No</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -51,7 +58,20 @@ const AllUsers = () => {
                                     <td>{el?.role}</td>
                                     <td>{moment(el?.createdAt).format('ll')}</td>
                                     <td>
-                                        <button className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white'><MdModeEdit /></button>
+                                        <button
+                                            className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white'
+                                            onClick={() => {
+                                                setUserDetailData({
+                                                    name: el?.name,
+                                                    email: el?.email,
+                                                    role: el?.role,
+                                                    _id:el?._id
+                                                })
+                                                setopenUpdateRole(true)
+                                            }}
+                                        >
+                                            <MdModeEdit />
+                                        </button>
                                     </td>
                                 </tr>
                             )
@@ -59,8 +79,20 @@ const AllUsers = () => {
                     }
                 </tbody>
             </table>
+            {
+                openUpdateRole && (
+                    <ChangeUserRole
+                        onclose={() => setopenUpdateRole(false)}
+                        name={userDetailData.name}
+                        email={userDetailData.email}
+                        role={userDetailData.role}
+                        userId={userDetailData._id}
+                        callFunc={fetchUser}
+                    />
+                )
+            }
 
-            <ChangeUserRole />
+
         </div>
     )
 }
